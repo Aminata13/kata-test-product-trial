@@ -3,7 +3,9 @@ package com.katatest.producttrial.model;
 import com.katatest.producttrial.dto.WishListItemDto;
 import com.katatest.producttrial.model.abstracts.AuditMetaData;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "wishListItems")
 public class WishListItem extends AuditMetaData {
 
     @Id

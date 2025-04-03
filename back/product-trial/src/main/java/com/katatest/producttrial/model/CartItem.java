@@ -3,8 +3,10 @@ package com.katatest.producttrial.model;
 import com.katatest.producttrial.dto.CartItemDto;
 import com.katatest.producttrial.model.abstracts.AuditMetaData;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
+@Document(collection = "cartItems")
 public class CartItem extends AuditMetaData {
 
     @Id
