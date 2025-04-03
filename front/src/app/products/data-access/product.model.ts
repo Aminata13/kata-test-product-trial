@@ -14,3 +14,9 @@ export interface Product {
     createdAt: number;
     updatedAt: number;
 }
+
+export interface CartItem {
+  id?: number;
+  product: Product;
+  quantity: number;
+}

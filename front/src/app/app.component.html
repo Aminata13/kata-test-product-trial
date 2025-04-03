@@ -1,25 +1,71 @@
 <p-toolbar [style]="{ height: '100px' }">
-    <div class="p-toolbar-group-start">
-        <img src="assets/icons/icon-72x72.png" alt="logo" />
-    </div>
-    <div class="p-toolbar-group-center">
-        {{ title }}
-    </div>
-    <div class="p-toolbar-group-end">
-        <i class="pi pi-shopping-cart" style="font-size: 2rem"></i>
-    </div>
+  <div class="p-toolbar-group-start">
+    <img src="assets/icons/icon-72x72.png" alt="logo" />
+  </div>
+  <div class="p-toolbar-group-center">
+    {{ title }}
+  </div>
+  <div class="p-toolbar-group-end">
+    <i class="pi pi-shopping-cart" (click)="op.toggle($event)" style="font-size: 2rem" pBadge [value]="cartItemCount()"></i>
+    <p-overlayPanel #op>
+      <ng-template pTemplate>
+        <div class="w-20rem">
+          <div class="text-xl font-medium mb-2">Mon Panier</div>
+          @if(productsService.cartItems().length === 0){
+
+            <div class="text-center p-3">
+              <i class="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
+              <div>Votre panier est vide</div>
+            </div>
+          }
+
+          @for( item of productsService.cartItems(); track item){
+            <div class="flex align-items-center justify-content-between mb-2 p-2 border-bottom-1 border-gray-200">
+              <div>
+                <div class="font-medium">{{ item.product.name }}</div>
+                <div class="text-sm text-gray-600">{{ item.quantity }} x {{ item.product.price }}</div>
+              </div>
+              <div class="flex align-items-center gap-2">
+                <span>{{ item.product.price * item.quantity }}</span>
+                <button pButton icon="pi pi-trash"
+                        class="p-button-text p-button-rounded p-button-danger"
+                        (click)="productsService.removeItem(item.product.id)"></button>
+              </div>
+            </div>
+
+          }
+
+          @if(productsService.cartItems().length > 0){
+
+            <div class="flex justify-content-between font-medium mt-3 pt-2 border-top-1 border-gray-200">
+              <span>Total:</span>
+              <span>{{ productsService.totalPrice() }}</span>
+            </div>
+          }
+
+          @if(productsService.cartItems().length > 0){
+
+            <div class="flex justify-content-between mt-3" >
+              <p-button label="Voir panier" styleClass="p-button-outlined" routerLink="/cart"></p-button>
+              <p-button label="Commander" severity="success"></p-button>
+            </div>
+          }
+        </div>
+      </ng-template>
+    </p-overlayPanel>
+  </div>
 </p-toolbar>
-<p-splitter 
-    [panelSizes]="[20, 80]" 
-    [style]="{ height: 'calc(100vh - 100px)' }">
-    <ng-template pTemplate>
-        <div class="w-full">
-            <app-panel-menu />
-        </div>
-    </ng-template>
-    <ng-template pTemplate>
-        <div class="w-full app-content">
-            <router-outlet></router-outlet>
-        </div>
-    </ng-template>
+<p-splitter
+  [panelSizes]="[20, 80]"
+  [style]="{ height: 'calc(100vh - 100px)' }">
+  <ng-template pTemplate>
+    <div class="w-full">
+      <app-panel-menu />
+    </div>
+  </ng-template>
+  <ng-template pTemplate>
+    <div class="w-full app-content">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
 </p-splitter>
