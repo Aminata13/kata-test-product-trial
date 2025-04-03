@@ -11,7 +11,7 @@
       <ng-template pTemplate>
         <div class="w-20rem">
           <div class="text-xl font-medium mb-2">Mon Panier</div>
-          @if(productsService.cartItems().length === 0){
+          @if(cartsService.cartItems().length === 0){
 
             <div class="text-center p-3">
               <i class="pi pi-shopping-cart text-4xl text-gray-400 mb-2"></i>
@@ -19,7 +19,7 @@
             </div>
           }
 
-          @for( item of productsService.cartItems(); track item){
+          @for( item of cartsService.cartItems(); track item){
             <div class="flex align-items-center justify-content-between mb-2 p-2 border-bottom-1 border-gray-200">
               <div>
                 <div class="font-medium">{{ item.product.name }}</div>
@@ -29,21 +29,21 @@
                 <span>{{ item.product.price * item.quantity }}</span>
                 <button pButton icon="pi pi-trash"
                         class="p-button-text p-button-rounded p-button-danger"
-                        (click)="productsService.removeItem(item.product.id)"></button>
+                        (click)="cartsService.removeItem(item.product.id)"></button>
               </div>
             </div>
 
           }
 
-          @if(productsService.cartItems().length > 0){
+          @if(cartsService.cartItems().length > 0){
 
             <div class="flex justify-content-between font-medium mt-3 pt-2 border-top-1 border-gray-200">
               <span>Total:</span>
-              <span>{{ productsService.totalPrice() }}</span>
+              <span>{{ cartsService.totalPrice() }}</span>
             </div>
           }
 
-          @if(productsService.cartItems().length > 0){
+          @if(cartsService.cartItems().length > 0){
 
             <div class="flex justify-content-between mt-3" >
               <p-button label="Voir panier" styleClass="p-button-outlined" routerLink="/cart"></p-button>

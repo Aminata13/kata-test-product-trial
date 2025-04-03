@@ -6,10 +6,10 @@ import { RouterModule } from "@angular/router";
 import { SplitterModule } from 'primeng/splitter';
 import { ToolbarModule } from 'primeng/toolbar';
 import { PanelMenuComponent } from "./shared/ui/panel-menu/panel-menu.component";
-import { ProductsService } from "./products/data-access/products.service";
 import { BadgeModule } from 'primeng/badge';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ButtonModule } from "primeng/button";
+import {CartsService} from "./carts/data-access/carts.service";
 
 
 @Component({
@@ -21,7 +21,8 @@ import { ButtonModule } from "primeng/button";
 })
 export class AppComponent {
 
-  public readonly productsService = inject(ProductsService);
-  cartItemCount = this.productsService.totalItems;
+  protected readonly cartsService = inject(CartsService);
+
+  cartItemCount = this.cartsService.totalItems;
   title = "ALTEN SHOP";
 }

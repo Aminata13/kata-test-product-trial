@@ -1,5 +1,5 @@
 import {Injectable, inject, signal, computed} from "@angular/core";
-import { CartItem, Product } from "./product.model";
+import { Product } from "./product.model";
 import { HttpClient } from "@angular/common/http";
 import { catchError, Observable, of, tap } from "rxjs";
 
@@ -13,17 +13,6 @@ import { catchError, Observable, of, tap } from "rxjs";
     private readonly _products = signal<Product[]>([]);
 
     public readonly products = this._products.asReadonly();
-
-    private items = signal<CartItem[]>([]);
-
-    cartItems = this.items.asReadonly();
-
-    totalItems = computed(() =>
-        this.items().reduce((total, item) => total + item.quantity, 0)
-    );
-    totalPrice = computed(() =>
-        this.items().reduce((total, item) => total + (item.product.price * item.quantity), 0)
-    );
 
     public get(): Observable<Product[]> {
         return this.http.get<Product[]>(this.path).pipe(
@@ -61,27 +50,6 @@ import { catchError, Observable, of, tap } from "rxjs";
             }),
             tap(() => this._products.update(products => products.filter(product => product.id !== productId))),
         );
-    }
-
-    addItem(product: Product): void {
-        const currentItems = this.items();
-        const existingItem = currentItems.find(item => item.product.id === product.id);
-
-        if (existingItem) {
-            this.items.update(items =>
-                items.map(item =>
-                    item.product.id === product.id
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-              )
-            );
-        } else {
-            this.items.update(items => [...items, { product, quantity: 1 }]);
-        }
-    }
-
-    removeItem(productId: string | number): void {
-        this.items.update(items => items.filter(item => item.product.id !== productId));
     }
 
 }

@@ -20,10 +20,10 @@ import {CardModule} from "primeng/card";
       ToastModule,
       CardModule
   ],
-  templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss'
+  templateUrl: './contact-form.component.html',
+  styleUrl: './contact-form.component.scss'
 })
-export class ContactComponent {
+export class ContactFormComponent {
     private fb = inject(FormBuilder);
     private messageService = inject(MessageService);
 
